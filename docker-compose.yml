@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  api:
+    container_name: hyperbill-api
+    build:
+      context: .
+      dockerfile: docker/dev/hyperbill-api/Dockerfile
+    ports:
+    - "8000:8000"
+    environment:
+      - HB_ENV=docker
+  db:
+    container_name: hyperbill-db
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
